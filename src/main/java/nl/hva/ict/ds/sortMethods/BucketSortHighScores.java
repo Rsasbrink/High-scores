@@ -16,32 +16,57 @@ import nl.hva.ict.ds.Player;
  */
 public class BucketSortHighScores implements HighScoreList {
 
+    private static final int DEFAULT_BUCKET_SIZE = 500;
+    private static final int MAX_SCORE = 100000;
+
     private ArrayList<Player> players = new ArrayList<>();
 
     @Override
     public void add(Player player) {
         players.add(player);
-        sortScores();
+        sort(DEFAULT_BUCKET_SIZE);
     }
 
-    private void sortScores() {
-//        for (int i = 0; i < players.size() - 1; i++) {
-//            int pos = i;
-//            // find position of smallest num between (i + 1)th element and last element
-//            for (int j = i + 1; j <= players.size(); j++) {
-//                if (players.get(j).getHighScore() < players.get(pos).getHighScore())
-//                    pos = j;
-//
-//                // Swap min (smallest num) to current position on playersay
-//                Player min = players.get(pos);
-//                players.set(pos, players.get(i));
-//                players.set(i, min);
+    public void sort(int bucketSize) {
+        if (players.isEmpty()) {
+            return;
+        }
+
+        int bucketCount = MAX_SCORE / bucketSize;
+        List<List<Player>> buckets = new ArrayList<List<Player>>(bucketCount);
+
+        for (int i = 0; i < bucketCount; i++) {
+            buckets.add(new ArrayList<Player>());
+        }
+        for (int i = 0; i < players.size(); i++) {
+            buckets.get((int) players.get(i).getHighScore() / bucketSize).add(players.get(i));
+        }
+
+        int currentIndex = 0;
+        for (int i = 0; i < buckets.size(); i++) {
+            Player[] bucketArray = new Player[buckets.get(i).size()];
+            bucketArray = buckets.get(i).toArray(bucketArray);
+
+            for (int j = 0; j < bucketArray.length; j++) {
+                players.clear();
+                players.add(bucketArray[j]);
+            }
+        }
+//        // Sort buckets and place back into input array
+//        int currentIndex = 0;
+//        for (int i = 0; i < buckets.size(); i++) {
+//            Integer[] bucketArray = new Integer[buckets.get(i).size()];
+//            bucketArray = buckets.get(i).toArray(bucketArray);
+//            InsertionSort.sort(bucketArray);
+//            for (int j = 0; j < bucketArray.length; j++) {
+//                array[currentIndex++] = bucketArray[j];
 //            }
 //        }
     }
 
     @Override
     public List<Player> getHighScores(int numberOfHighScores) {
+        sort(DEFAULT_BUCKET_SIZE);
         return players.subList(0, Math.min(numberOfHighScores, players.size()));
     }
 
@@ -55,5 +80,8 @@ public class BucketSortHighScores implements HighScoreList {
         }
         return matchedPlayers;
     }
+
+    
+
 
 }

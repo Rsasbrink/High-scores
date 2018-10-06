@@ -4,8 +4,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.security.SecureRandom;
+import static java.util.Collections.list;
 import java.util.List;
 import java.util.Random;
+import nl.hva.ict.ds.sortMethods.BucketSortHighScores;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -27,9 +29,9 @@ public class HighScoreListTest {
     @Before
     public void setup() {
         // Here you should select your implementation to be tested.
-        highScores = new DummyHighScores();
+ //       highScores = new DummyHighScores();
 //        highScores = new InsertionSortHighScores();
-//        highScores = new BucketSortHighScores();
+        highScores = new BucketSortHighScores();
 //        highScores = new PriorityQueueHighScores();
 
         nearlyHeadlessNick = new Player("Nicholas", "de Mimsy-Porpington", getHighScore() % 200);
@@ -92,10 +94,11 @@ public class HighScoreListTest {
     }
     
     @Test
-    public void getAllScores(){
+    public void TestBucketSort(){
         int amount = 1000;
-         addManyPlayers(amount, highScores);
+        addManyPlayers(amount, highScores);
         List<Player> list = highScores.getHighScores(amount);
+        
         int i = 0;
         for (Player player : list) {
             System.out.println(i + ": " +player.getFirstName() + " " + player.getLastName() + " : " + player.getHighScore());
@@ -103,4 +106,5 @@ public class HighScoreListTest {
         }
         assertEquals(amount, highScores.getHighScores(amount).size());
     }
+    
 }
