@@ -1,0 +1,8 @@
+#surefire
+#Sat Oct 06 16:38:30 CEST 2018
+maven.ext.class.path=C\:\\Program Files\\NetBeans 8.2\\java\\maven-nblib\\netbeans-eventspy.jar;C\:\\Program Files\\NetBeans 8.2\\java\\maven-nblib\\netbeans-eventspy.jar
+user.dir=C\:\\Users\\rsasb\\Desktop\\StackStorage\\HvA\\Datastructures\\2\\High-scores
+file.encoding=UTF-8
+localRepository=C\:\\Users\\rsasb\\.m2\\repository
+basedir=C\:\\Users\\rsasb\\Desktop\\StackStorage\\HvA\\Datastructures\\2\\High-scores
+test=nl.hva.ict.ds.HighScoreListTest

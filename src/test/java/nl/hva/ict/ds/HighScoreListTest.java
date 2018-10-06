@@ -4,10 +4,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.security.SecureRandom;
-import static java.util.Collections.list;
 import java.util.List;
 import java.util.Random;
 import nl.hva.ict.ds.sortMethods.BucketSortHighScores;
+import nl.hva.ict.ds.sortMethods.InsertionSortHighScores;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -30,15 +30,15 @@ public class HighScoreListTest {
     public void setup() {
         // Here you should select your implementation to be tested.
  //       highScores = new DummyHighScores();
-//        highScores = new InsertionSortHighScores();
-        highScores = new BucketSortHighScores();
+        highScores = new InsertionSortHighScores();
+ //       highScores = new BucketSortHighScores();
 //        highScores = new PriorityQueueHighScores();
 
         nearlyHeadlessNick = new Player("Nicholas", "de Mimsy-Porpington", getHighScore() % 200);
         dumbledore = new Player("Albus", "Dumbledore", nearlyHeadlessNick.getHighScore() * 1000);
     }
     private void addManyPlayers(int amount, HighScoreList list) {
-        for (int i = 0; i < amount; i++) {
+        for (int i = 1; i <= amount; i++) {
             String firstName = "play";
             String lastName = "er" + i;
             list.add(new Player(firstName, lastName, getHighScore()));
@@ -84,7 +84,8 @@ public class HighScoreListTest {
     public void harryBeatsDumbledore() {
         highScores.add(dumbledore);
         Player harry = new Player("Harry", "Potter", dumbledore.getHighScore() + 1);
-
+     // test always failed, because harry is made, but never added. Fixed this, mention in report
+     highScores.add(harry);
         assertEquals(harry, highScores.getHighScores(1).get(0));
     }
 
@@ -94,17 +95,13 @@ public class HighScoreListTest {
     }
     
     @Test
-    public void TestBucketSort(){
+    public void CheckScore(){
         int amount = 1000;
         addManyPlayers(amount, highScores);
         List<Player> list = highScores.getHighScores(amount);
-        
-        int i = 0;
-        for (Player player : list) {
-            System.out.println(i + ": " +player.getFirstName() + " " + player.getLastName() + " : " + player.getHighScore());
-            i++;
-        }
+        list.forEach((player) -> {
+            System.out.println(player.getFirstName() + "\t " + player.getLastName() + ": \t\t " + player.getHighScore());
+        });
         assertEquals(amount, highScores.getHighScores(amount).size());
     }
-    
 }

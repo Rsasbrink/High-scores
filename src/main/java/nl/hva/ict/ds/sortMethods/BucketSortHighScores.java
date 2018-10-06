@@ -6,6 +6,8 @@
 package nl.hva.ict.ds.sortMethods;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import nl.hva.ict.ds.HighScoreList;
 import nl.hva.ict.ds.Player;
@@ -16,15 +18,15 @@ import nl.hva.ict.ds.Player;
  */
 public class BucketSortHighScores implements HighScoreList {
 
-    private static final int DEFAULT_BUCKET_SIZE = 500;
+    private static final int DEFAULT_BUCKET_SIZE = 5000;
     private static final int MAX_SCORE = 100000;
 
-    private ArrayList<Player> players = new ArrayList<>();
+    public ArrayList<Player> players = new ArrayList<>();
 
     @Override
     public void add(Player player) {
         players.add(player);
-        sort(DEFAULT_BUCKET_SIZE);
+
     }
 
     public void sort(int bucketSize) {
@@ -32,40 +34,68 @@ public class BucketSortHighScores implements HighScoreList {
             return;
         }
 
-        int bucketCount = MAX_SCORE / bucketSize;
-        List<List<Player>> buckets = new ArrayList<List<Player>>(bucketCount);
-
-        for (int i = 0; i < bucketCount; i++) {
-            buckets.add(new ArrayList<Player>());
-        }
-        for (int i = 0; i < players.size(); i++) {
-            buckets.get((int) players.get(i).getHighScore() / bucketSize).add(players.get(i));
-        }
-
-        int currentIndex = 0;
-        for (int i = 0; i < buckets.size(); i++) {
-            Player[] bucketArray = new Player[buckets.get(i).size()];
-            bucketArray = buckets.get(i).toArray(bucketArray);
-
-            for (int j = 0; j < bucketArray.length; j++) {
-                players.clear();
-                players.add(bucketArray[j]);
+        long minValue = players.get(0).getHighScore();
+        long maxValue = players.get(0).getHighScore();
+        for (int i = 1; i < players.size(); i++) {
+            if (players.get(i).getHighScore() < minValue) {
+                minValue = players.get(i).getHighScore();
+            } else if (players.get(i).getHighScore() > maxValue) {
+                maxValue = players.get(i).getHighScore();
             }
         }
-//        // Sort buckets and place back into input array
-//        int currentIndex = 0;
-//        for (int i = 0; i < buckets.size(); i++) {
-//            Integer[] bucketArray = new Integer[buckets.get(i).size()];
-//            bucketArray = buckets.get(i).toArray(bucketArray);
-//            InsertionSort.sort(bucketArray);
-//            for (int j = 0; j < bucketArray.length; j++) {
-//                array[currentIndex++] = bucketArray[j];
-//            }
-//        }
+
+        // Initialise buckets
+        int bucketCount = (int) ((maxValue - minValue) / bucketSize + 1);
+        List<List<Player>> buckets = new ArrayList<>(bucketCount);
+
+        for (int i = 0; i < bucketCount; i++) {
+            buckets.add(new ArrayList<>());
+        }
+
+        // Distribute input array values into buckets
+        for (int i = 0; i < players.size(); i++) {
+            buckets.get((int) (((int) players.get(i).getHighScore() - minValue) / bucketSize)).add(players.get(i));
+        }
+        players.clear();
+        int currentIndex = 0;
+        int bucketAmount = buckets.size() - 1;
+        for (int i = bucketAmount; i > 0; i--) {
+            Player[] bucketArray = new Player[buckets.get(i).size()];
+            bucketArray = buckets.get(i).toArray(bucketArray);
+            selectionSort(bucketArray);
+            List<Object> list = Arrays.asList(bucketArray);
+            Collections.reverse(list);
+            bucketArray = (Player[]) list.toArray();
+            for (Player player : bucketArray) {
+                players.add(player);
+            }
+        }
+    }
+
+    void selectionSort(Player[] bucket) {
+        int length = bucket.length;
+
+        // One by one move boundary of unsorted subarray 
+        for (int i = 0; i < length - 1; i++) {
+            // Find the minimum element in unsorted array 
+            int min_idx = i;
+            for (int j = i + 1; j < length; j++) {
+                if (bucket[j].getHighScore() < bucket[min_idx].getHighScore()) {
+                    min_idx = j;
+                }
+            }
+
+            // Swap the found minimum element with the first 
+            // element 
+            Player temp = bucket[min_idx];
+            bucket[min_idx] = bucket[i];
+            bucket[i] = temp;
+        }
     }
 
     @Override
     public List<Player> getHighScores(int numberOfHighScores) {
+
         sort(DEFAULT_BUCKET_SIZE);
         return players.subList(0, Math.min(numberOfHighScores, players.size()));
     }
@@ -80,8 +110,5 @@ public class BucketSortHighScores implements HighScoreList {
         }
         return matchedPlayers;
     }
-
-    
-
 
 }
