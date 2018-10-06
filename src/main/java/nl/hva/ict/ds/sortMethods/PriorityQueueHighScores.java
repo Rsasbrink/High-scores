@@ -16,21 +16,43 @@ import nl.hva.ict.ds.Player;
  */
 public class PriorityQueueHighScores implements HighScoreList {
 
-    private ArrayList<Player> players = new ArrayList<Player>();
-
-    @Override
+    private ArrayList<Player> players = new ArrayList<>();
+   @Override
     public void add(Player player) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        players.add(player);
+        sortScores();
+    }
+
+    private void sortScores() {
+//        for (int i = 0; i < players.size() - 1; i++) {
+//            int pos = i;
+//            // find position of smallest num between (i + 1)th element and last element
+//            for (int j = i + 1; j <= players.size(); j++) {
+//                if (players.get(j).getHighScore() < players.get(pos).getHighScore())
+//                    pos = j;
+//
+//                // Swap min (smallest num) to current position on playersay
+//                Player min = players.get(pos);
+//                players.set(pos, players.get(i));
+//                players.set(i, min);
+//            }
+//        }
     }
 
     @Override
     public List<Player> getHighScores(int numberOfHighScores) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return players.subList(0, Math.min(numberOfHighScores, players.size()));
     }
 
     @Override
-    public List<Player> findPlayer(String firstName, String lastName) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Player> findPlayer(String firstName, String lastName) {
+        List<Player> matchedPlayers = new ArrayList<>();
+        for (Player player : players) {
+            if (player.getFirstName().equals(firstName)) {
+                matchedPlayers.add(player);
+            }
+        }
+        return matchedPlayers;
     }
 
 }
