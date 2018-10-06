@@ -12,7 +12,7 @@ public interface HighScoreList {
      * @param player
      */
     void add(Player player);
-
+   
     /**
      * Return a list with players descending sorted on their high-score. If there are less then numberOfHighScores players
      * a list containing all players is returned. If there are more high-scores then numberOfHighScore only the first

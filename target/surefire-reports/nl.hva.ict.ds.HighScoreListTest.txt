@@ -1,14 +1,14 @@
 -------------------------------------------------------------------------------
 Test set: nl.hva.ict.ds.HighScoreListTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.151 sec <<< FAILURE!
-harryBeatsDumbledore(nl.hva.ict.ds.HighScoreListTest)  Time elapsed: 0.002 sec  <<< FAILURE!
-java.lang.AssertionError: expected:<nl.hva.ict.ds.Player@7a7b0070> but was:<nl.hva.ict.ds.Player@39a054a5>
+Tests run: 7, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 0.265 sec <<< FAILURE!
+harryBeatsDumbledore(nl.hva.ict.ds.HighScoreListTest)  Time elapsed: 0.003 sec  <<< FAILURE!
+java.lang.AssertionError: expected:<nl.hva.ict.ds.Player@71bc1ae4> but was:<nl.hva.ict.ds.Player@6ed3ef1>
 	at org.junit.Assert.fail(Assert.java:88)
 	at org.junit.Assert.failNotEquals(Assert.java:834)
 	at org.junit.Assert.assertEquals(Assert.java:118)
 	at org.junit.Assert.assertEquals(Assert.java:144)
-	at nl.hva.ict.ds.HighScoreListTest.harryBeatsDumbledore(HighScoreListTest.java:78)
+	at nl.hva.ict.ds.HighScoreListTest.harryBeatsDumbledore(HighScoreListTest.java:86)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

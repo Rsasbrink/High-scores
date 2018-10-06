@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
@@ -34,7 +35,14 @@ public class HighScoreListTest {
         nearlyHeadlessNick = new Player("Nicholas", "de Mimsy-Porpington", getHighScore() % 200);
         dumbledore = new Player("Albus", "Dumbledore", nearlyHeadlessNick.getHighScore() * 1000);
     }
-
+    private void addManyPlayers(int amount, HighScoreList list) {
+        for (int i = 0; i < amount; i++) {
+            String firstName = "play";
+            String lastName = "er" + i;
+            list.add(new Player(firstName, lastName, getHighScore()));
+            
+        }
+    }
     @Test
     public void noPlayerNoHighScore() {
         assertTrue("There are high-score while there should be no high-scores!", highScores.getHighScores(1).isEmpty());
@@ -81,5 +89,18 @@ public class HighScoreListTest {
     // Extra unit tests go here
     private long getHighScore() {
         return randomizer.nextInt(MAX_HIGH_SCORE);
+    }
+    
+    @Test
+    public void getAllScores(){
+        int amount = 1000;
+         addManyPlayers(amount, highScores);
+        List<Player> list = highScores.getHighScores(amount);
+        int i = 0;
+        for (Player player : list) {
+            System.out.println(i + ": " +player.getFirstName() + " " + player.getLastName() + " : " + player.getHighScore());
+            i++;
+        }
+        assertEquals(amount, highScores.getHighScores(amount).size());
     }
 }
