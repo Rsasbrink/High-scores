@@ -1,6 +1,5 @@
 package nl.hva.ict.ds;
-
-import nl.hva.ict.ds.sortMethods.InsertionSortHighScores;
+import nl.hva.ict.ds.DummyHighScores;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,10 +10,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * This class contains some unit tests. They by no means ensure that all the requirements are implemented
- * correctly.
+ * This class contains some unit tests. They by no means ensure that all the
+ * requirements are implemented correctly.
  */
+
+
 public class HighScoreListTest {
+
     private static final int MAX_HIGH_SCORE = 100000;
     private Random randomizer = new SecureRandom();
     private HighScoreList highScores;
@@ -24,7 +26,7 @@ public class HighScoreListTest {
     @Before
     public void setup() {
         // Here you should select your implementation to be tested.
-      highScores = new DummyHighScores();
+        highScores = new DummyHighScores();
 //        highScores = new InsertionSortHighScores();
 //        highScores = new BucketSortHighScores();
 //        highScores = new PriorityQueueHighScores();
@@ -77,7 +79,6 @@ public class HighScoreListTest {
     }
 
     // Extra unit tests go here
-
     private long getHighScore() {
         return randomizer.nextInt(MAX_HIGH_SCORE);
     }
