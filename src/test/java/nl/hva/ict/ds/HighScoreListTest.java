@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Random;
 import nl.hva.ict.ds.sortMethods.BucketSortHighScores;
 import nl.hva.ict.ds.sortMethods.InsertionSortHighScores;
-import nl.hva.ict.ds.sortMethods.PriorityQueueHighScores;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -31,7 +30,7 @@ public class HighScoreListTest {
         // Here you should select your implementation to be tested.
 //      highScores = new DummyHighScores();
 //        highScores = new InsertionSortHighScores();
-        highScores = new BucketSortHighScores();
+      highScores = new BucketSortHighScores();
 //      highScores = new PriorityQueueHighScores();
 
         nearlyHeadlessNick = new Player("Nicholas", "de Mimsy-Porpington", getHighScore() % 200);
@@ -103,7 +102,7 @@ public class HighScoreListTest {
     public void CheckScore() {
         int amount = 1000;
         addManyPlayers(amount, highScores);
-
+       
         assertEquals(amount, highScores.getHighScores(amount).size());
     }
 
