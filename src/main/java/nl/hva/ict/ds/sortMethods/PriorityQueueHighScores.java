@@ -6,7 +6,9 @@
 package nl.hva.ict.ds.sortMethods;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 import nl.hva.ict.ds.HighScoreList;
 import nl.hva.ict.ds.Player;
 
@@ -16,37 +18,44 @@ import nl.hva.ict.ds.Player;
  */
 public class PriorityQueueHighScores implements HighScoreList {
 
+    Comparator<Player> HighScoreComparator = new Comparator<Player>() {
+
+        @Override
+        public int compare(Player player1, Player player2) {
+            return (int) (player2.getHighScore() - player1.getHighScore());
+        }
+    };
+    PriorityQueue<Player> HighScoresPriorityQueue = new PriorityQueue<>(HighScoreComparator);
+
     private ArrayList<Player> players = new ArrayList<>();
 
     @Override
     public void add(Player player) {
-        players.add(player);
-        sortScores();
-    }
-
-    private void sortScores() {
-//        for (int i = 0; i < players.size() - 1; i++) {
-//            int pos = i;
-//            // find position of smallest num between (i + 1)th element and last element
-//            for (int j = i + 1; j <= players.size(); j++) {
-//                if (players.get(j).getHighScore() < players.get(pos).getHighScore())
-//                    pos = j;
-//
-//                // Swap min (smallest num) to current position on playersay
-//                Player min = players.get(pos);
-//                players.set(pos, players.get(i));
-//                players.set(i, min);
-//            }
-//        }
+        HighScoresPriorityQueue.add(player);
     }
 
     @Override
     public List<Player> getHighScores(int numberOfHighScores) {
+        
+        copyQueueToArrayList();
+
         return players.subList(0, Math.min(numberOfHighScores, players.size()));
+
+    }
+
+    public void copyQueueToArrayList() {
+        players.clear();
+        PriorityQueue<Player> PQCopy = new PriorityQueue<Player>();
+        PQCopy = HighScoresPriorityQueue;
+        while (!PQCopy.isEmpty()) {
+            players.add(PQCopy.poll());
+        }
+
     }
 
     @Override
     public List<Player> findPlayer(String firstName, String lastName) {
+        copyQueueToArrayList();
         List<Player> matchedPlayers = new ArrayList<>();
         for (Player player : players) {
 
