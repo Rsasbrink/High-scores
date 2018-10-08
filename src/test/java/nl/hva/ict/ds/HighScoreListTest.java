@@ -29,13 +29,13 @@ public class HighScoreListTest {
     public void setup() {
         // Here you should select your implementation to be tested.
 //      highScores = new DummyHighScores();
-//     highScores = new InsertionSortHighScores();
-        highScores = new BucketSortHighScores();
+        highScores = new InsertionSortHighScores();
+//      highScores = new BucketSortHighScores();
 //      highScores = new PriorityQueueHighScores();
 
         nearlyHeadlessNick = new Player("Nicholas", "de Mimsy-Porpington", getHighScore() % 200);
         // removed *1000 from Dumbledore, because it will exceed the max score of 100000    
-   
+
         dumbledore = new Player("Albus", "Dumbledore", nearlyHeadlessNick.getHighScore() + 300);
 //        dumbledore = new Player("Albus", "Dumbledore", nearlyHeadlessNick.getHighScore() * 1000);
     }
@@ -100,12 +100,38 @@ public class HighScoreListTest {
 
     @Test
     public void CheckScore() {
-        int amount = 100000;
+        int amount = 1000;
         addManyPlayers(amount, highScores);
         List<Player> list = highScores.getHighScores(amount);
-//        list.forEach((player) -> {
-//            System.out.println(player.getFirstName() + "\t " + player.getLastName() + ": \t\t " + player.getHighScore());
-//        });
         assertEquals(amount, highScores.getHighScores(amount).size());
+    }
+
+    @Test
+    public void checkFindPlayerByFirstname() {
+        // added 4 players; play er1, play er2, play er1, play er2
+        addManyPlayers(2, highScores);
+        addManyPlayers(2, highScores);
+
+        // 4 result which have play as firstname
+        assertEquals(4, highScores.findPlayer("play", "").size());
+    }
+
+    @Test
+    public void checkFindPlayerByLastname() {
+        // added 4 players; play er1, play er2, play er1, play er2
+        addManyPlayers(2, highScores);
+        addManyPlayers(2, highScores);
+
+        // 2 result which have er1 as last name
+        assertEquals(2, highScores.findPlayer("", "er1").size());
+    }
+
+    @Test
+    public void checkFindPlayerByWholeName() {
+        // added 4 players; play er1, play er2, play er1, play er2
+        addManyPlayers(2, highScores);
+        addManyPlayers(2, highScores);
+        //  2 results, which have play er1 as full name
+        assertEquals(2, highScores.findPlayer("play", "er1").size());
     }
 }

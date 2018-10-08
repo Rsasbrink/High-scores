@@ -20,7 +20,15 @@ public class BucketSortHighScores implements HighScoreList {
 
     private static final int DEFAULT_BUCKET_SIZE = 5000;
     private static final int MAX_SCORE = 100000;
+
+    /**
+     *
+     */
     public int bucketAmount = MAX_SCORE / DEFAULT_BUCKET_SIZE;
+
+    /**
+     *
+     */
     public List<List<Player>> buckets;
     public ArrayList<Player> players = new ArrayList<>();
 
@@ -37,20 +45,30 @@ public class BucketSortHighScores implements HighScoreList {
     }
 
     public void sort(int bucketSize) {
-        
+        // for every bucket, sort and put the players in the arrayList
         for (int i = bucketAmount - 1; i >= 0; i--) {
             Player[] bucketArray = new Player[buckets.get(i).size()];
+            // Convert bucket to array, so it can be sorted
             bucketArray = buckets.get(i).toArray(bucketArray);
             selectionSort(bucketArray);
+
+            // Convert to list to reverse it, since we're sorting reversed. 
             List<Object> list = Arrays.asList(bucketArray);
             Collections.reverse(list);
             bucketArray = (Player[]) list.toArray();
+
+            // add players in the bucket to the arrayList. 
             for (Player player : bucketArray) {
                 players.add(player);
             }
         }
     }
 
+    
+    
+
+   
+    
     void selectionSort(Player[] bucket) {
         int length = bucket.length;
 
@@ -74,17 +92,36 @@ public class BucketSortHighScores implements HighScoreList {
 
     @Override
     public List<Player> getHighScores(int numberOfHighScores) {
-
         sort(DEFAULT_BUCKET_SIZE);
         return players.subList(0, Math.min(numberOfHighScores, players.size()));
     }
 
     @Override
     public List<Player> findPlayer(String firstName, String lastName) {
+        // Quick add al highscores to arrayList without sorting 
+        for (int i = bucketAmount - 1; i >= 0; i--) {
+            Player[] bucketArray = new Player[buckets.get(i).size()];
+            bucketArray = buckets.get(i).toArray(bucketArray);
+            for (Player player : bucketArray) {
+                players.add(player);
+            }
+        }
+         
         List<Player> matchedPlayers = new ArrayList<>();
         for (Player player : players) {
-            if (player.getFirstName().equals(firstName)) {
-                matchedPlayers.add(player);
+
+            if ("".equals(lastName.trim())) {
+                if (player.getFirstName().equals(firstName)) {
+                    matchedPlayers.add(player);
+                }
+            } else if ("".equals(firstName.trim())) {
+                if (player.getLastName().equals(lastName)) {
+                    matchedPlayers.add(player);
+                }
+            } else {
+                if (player.getFirstName().equals(firstName) && player.getLastName().equals(lastName)) {
+                    matchedPlayers.add(player);
+                }
             }
         }
         return matchedPlayers;

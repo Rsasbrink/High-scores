@@ -17,7 +17,8 @@ import nl.hva.ict.ds.Player;
 public class PriorityQueueHighScores implements HighScoreList {
 
     private ArrayList<Player> players = new ArrayList<>();
-   @Override
+
+    @Override
     public void add(Player player) {
         players.add(player);
         sortScores();
@@ -48,8 +49,19 @@ public class PriorityQueueHighScores implements HighScoreList {
     public List<Player> findPlayer(String firstName, String lastName) {
         List<Player> matchedPlayers = new ArrayList<>();
         for (Player player : players) {
-            if (player.getFirstName().equals(firstName)) {
-                matchedPlayers.add(player);
+
+            if ("".equals(lastName.trim())) {
+                if (player.getFirstName().equals(firstName)) {
+                    matchedPlayers.add(player);
+                }
+            } else if ("".equals(firstName.trim())) {
+                if (player.getLastName().equals(lastName)) {
+                    matchedPlayers.add(player);
+                }
+            } else {
+                if (player.getFirstName().equals(firstName) && player.getLastName().equals(lastName)) {
+                    matchedPlayers.add(player);
+                }
             }
         }
         return matchedPlayers;
