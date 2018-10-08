@@ -36,7 +36,7 @@ public class PriorityQueueHighScores implements HighScoreList {
 
     @Override
     public List<Player> getHighScores(int numberOfHighScores) {
-        
+
         copyQueueToArrayList();
 
         return players.subList(0, Math.min(numberOfHighScores, players.size()));
@@ -45,8 +45,8 @@ public class PriorityQueueHighScores implements HighScoreList {
 
     public void copyQueueToArrayList() {
         players.clear();
-        PriorityQueue<Player> PQCopy = new PriorityQueue<Player>();
-        PQCopy = HighScoresPriorityQueue;
+        PriorityQueue<Player> PQCopy = new PriorityQueue<Player>(HighScoresPriorityQueue);
+
         while (!PQCopy.isEmpty()) {
             players.add(PQCopy.poll());
         }
