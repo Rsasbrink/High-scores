@@ -28,14 +28,15 @@ public class HighScoreListTest {
     @Before
     public void setup() {
         // Here you should select your implementation to be tested.
-        //       highScores = new DummyHighScores();
-        //      highScores = new InsertionSortHighScores();
+//      highScores = new DummyHighScores();
+//     highScores = new InsertionSortHighScores();
         highScores = new BucketSortHighScores();
-//        highScores = new PriorityQueueHighScores();
+//      highScores = new PriorityQueueHighScores();
 
         nearlyHeadlessNick = new Player("Nicholas", "de Mimsy-Porpington", getHighScore() % 200);
-        // removed *1000 from Dumbledore, because it will exceed the max score of 100000
-        dumbledore = new Player("Albus", "Dumbledore", nearlyHeadlessNick.getHighScore());
+        // removed *1000 from Dumbledore, because it will exceed the max score of 100000    
+   
+        dumbledore = new Player("Albus", "Dumbledore", nearlyHeadlessNick.getHighScore() + 300);
 //        dumbledore = new Player("Albus", "Dumbledore", nearlyHeadlessNick.getHighScore() * 1000);
     }
 
@@ -99,7 +100,7 @@ public class HighScoreListTest {
 
     @Test
     public void CheckScore() {
-        int amount = 1000;
+        int amount = 100000;
         addManyPlayers(amount, highScores);
         List<Player> list = highScores.getHighScores(amount);
 //        list.forEach((player) -> {

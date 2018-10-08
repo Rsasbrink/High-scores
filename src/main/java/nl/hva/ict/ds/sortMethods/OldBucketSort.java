@@ -16,29 +16,50 @@ import nl.hva.ict.ds.Player;
  *
  * @author rsasb
  */
-public class BucketSortHighScores implements HighScoreList {
+public class OldBucketSort implements HighScoreList {
 
     private static final int DEFAULT_BUCKET_SIZE = 5000;
     private static final int MAX_SCORE = 100000;
-    public int bucketAmount = MAX_SCORE / DEFAULT_BUCKET_SIZE;
-    public List<List<Player>> buckets;
-    public ArrayList<Player> players = new ArrayList<>();
 
-    public BucketSortHighScores() {
-        buckets = new ArrayList<>(bucketAmount);
-        for (int i = 0; i < bucketAmount; i++) {
-            buckets.add(new ArrayList<>());
-        }
-    }
+    public ArrayList<Player> players = new ArrayList<>();
 
     @Override
     public void add(Player player) {
-        buckets.get((int) (((int) player.getHighScore()) / DEFAULT_BUCKET_SIZE)).add(player);
+        players.add(player);
+
     }
 
     public void sort(int bucketSize) {
-        
-        for (int i = bucketAmount - 1; i >= 0; i--) {
+        if (players.isEmpty()) {
+            return;
+        }
+
+        long minValue = players.get(0).getHighScore();
+        long maxValue = players.get(0).getHighScore();
+        for (int i = 1; i < players.size(); i++) {
+            if (players.get(i).getHighScore() < minValue) {
+                minValue = players.get(i).getHighScore();
+            } else if (players.get(i).getHighScore() > maxValue) {
+                maxValue = players.get(i).getHighScore();
+            }
+        }
+
+        // Initialise buckets
+        int bucketCount = (int) ((maxValue - minValue) / bucketSize + 1);
+        List<List<Player>> buckets = new ArrayList<>(bucketCount);
+
+        for (int i = 0; i < bucketCount; i++) {
+            buckets.add(new ArrayList<>());
+        }
+
+        // Distribute input array values into buckets
+        for (int i = 0; i < players.size(); i++) {
+            buckets.get((int) (((int) players.get(i).getHighScore() - minValue) / bucketSize)).add(players.get(i));
+        }
+        players.clear();
+        int currentIndex = 0;
+        int bucketAmount = buckets.size() - 1;
+        for (int i = bucketAmount; i > 0; i--) {
             Player[] bucketArray = new Player[buckets.get(i).size()];
             bucketArray = buckets.get(i).toArray(bucketArray);
             selectionSort(bucketArray);
@@ -91,3 +112,4 @@ public class BucketSortHighScores implements HighScoreList {
     }
 
 }
+
