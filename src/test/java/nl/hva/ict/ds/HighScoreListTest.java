@@ -29,8 +29,8 @@ public class HighScoreListTest {
     public void setup() {
         // Here you should select your implementation to be tested.
 //      highScores = new DummyHighScores();
-        highScores = new InsertionSortHighScores();
-//      highScores = new BucketSortHighScores();
+//        highScores = new InsertionSortHighScores();
+      highScores = new BucketSortHighScores();
 //      highScores = new PriorityQueueHighScores();
 
         nearlyHeadlessNick = new Player("Nicholas", "de Mimsy-Porpington", getHighScore() % 200);
@@ -102,8 +102,24 @@ public class HighScoreListTest {
     public void CheckScore() {
         int amount = 1000;
         addManyPlayers(amount, highScores);
-        List<Player> list = highScores.getHighScores(amount);
+       
         assertEquals(amount, highScores.getHighScores(amount).size());
+    }
+
+    @Test
+    public void CheckIfHighScore() {
+        int amount = 10000;
+        addManyPlayers(amount, highScores);
+        List<Player> highscores = highScores.getHighScores(amount);
+        Player highestScore = highscores.get(0);
+
+        for (Player player : highscores) {
+            if (player.getHighScore() > highestScore.getHighScore()) {
+                highestScore = player;
+            }
+        }
+        assertEquals(highestScore, highscores.get(0));
+
     }
 
     @Test
