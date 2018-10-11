@@ -19,15 +19,15 @@ import nl.hva.ict.ds.Player;
 public class PriorityQueueHighScores implements HighScoreList {
 
     Comparator<Player> HighScoreComparator = new Comparator<Player>() {
-
         @Override
         public int compare(Player player1, Player player2) {
             return (int) (player2.getHighScore() - player1.getHighScore());
         }
     };
+    
     PriorityQueue<Player> HighScoresPriorityQueue = new PriorityQueue<>(HighScoreComparator);
 
-    private ArrayList<Player> players = new ArrayList<>();
+    private final ArrayList<Player> players = new ArrayList<>();
 
     @Override
     public void add(Player player) {
@@ -36,7 +36,6 @@ public class PriorityQueueHighScores implements HighScoreList {
 
     @Override
     public List<Player> getHighScores(int numberOfHighScores) {
-
         copyQueueToArrayList();
 
         return players.subList(0, Math.min(numberOfHighScores, players.size()));
@@ -44,13 +43,13 @@ public class PriorityQueueHighScores implements HighScoreList {
     }
 
     public void copyQueueToArrayList() {
+        // Clear the list, create a copy, since polling removes the object from te list.
         players.clear();
-        PriorityQueue<Player> PQCopy = new PriorityQueue<Player>(HighScoresPriorityQueue);
+        PriorityQueue<Player> PQCopy = new PriorityQueue<>(HighScoresPriorityQueue);
 
         while (!PQCopy.isEmpty()) {
             players.add(PQCopy.poll());
         }
-
     }
 
     @Override

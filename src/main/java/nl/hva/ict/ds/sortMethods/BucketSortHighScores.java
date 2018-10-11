@@ -20,16 +20,9 @@ public class BucketSortHighScores implements HighScoreList {
 
     private static final int DEFAULT_BUCKET_SIZE = 5000;
     private static final int MAX_SCORE = 100000;
-
-    /**
-     *
-     */
     public int bucketAmount = MAX_SCORE / DEFAULT_BUCKET_SIZE;
 
-    /**
-     *
-     */
-    public List<List<Player>> buckets;
+    List<List<Player>> buckets;
     public ArrayList<Player> players = new ArrayList<>();
 
     public BucketSortHighScores() {
@@ -41,6 +34,7 @@ public class BucketSortHighScores implements HighScoreList {
 
     @Override
     public void add(Player player) {
+        //Add player to it's bucket
         buckets.get((int) (((int) player.getHighScore()) / DEFAULT_BUCKET_SIZE)).add(player);
     }
 
@@ -63,12 +57,7 @@ public class BucketSortHighScores implements HighScoreList {
             }
         }
     }
-
-    
-    
-
    
-    
     void selectionSort(Player[] bucket) {
         int length = bucket.length;
 

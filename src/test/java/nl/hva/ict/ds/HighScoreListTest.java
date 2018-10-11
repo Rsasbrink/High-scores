@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 public class HighScoreListTest {
 
     private static final int MAX_HIGH_SCORE = 100000;
-    private Random randomizer = new SecureRandom();
+    private final Random randomizer = new SecureRandom();
     private HighScoreList highScores;
     private Player nearlyHeadlessNick;
     private Player dumbledore;
@@ -32,7 +32,7 @@ public class HighScoreListTest {
 //      highScores = new DummyHighScores();
 //        highScores = new InsertionSortHighScores();
 //      highScores = new BucketSortHighScores();
-      highScores = new PriorityQueueHighScores();
+        highScores = new PriorityQueueHighScores();
 
         nearlyHeadlessNick = new Player("Nicholas", "de Mimsy-Porpington", getHighScore() % 200);
         // removed *1000 from Dumbledore, because it will exceed the max score of 100000    
@@ -103,7 +103,7 @@ public class HighScoreListTest {
     public void CheckScore() {
         int amount = 1000;
         addManyPlayers(amount, highScores);
-       
+
         assertEquals(amount, highScores.getHighScores(amount).size());
     }
 
@@ -150,5 +150,13 @@ public class HighScoreListTest {
         addManyPlayers(2, highScores);
         //  2 results, which have play er1 as full name
         assertEquals(2, highScores.findPlayer("play", "er1").size());
+    }
+
+    // Check if lists stays intact after sorting, i.e no record disapear after sorting
+    @Test
+    public void checkIfListsStayIntact() {
+        int amount = 3000;
+        List<Player> highscores = highScores.getHighScores(amount);
+        assertEquals(highscores.size(), highScores.getHighScores(amount).size());
     }
 }

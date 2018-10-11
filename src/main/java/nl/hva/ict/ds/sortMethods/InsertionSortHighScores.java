@@ -35,8 +35,7 @@ public class InsertionSortHighScores implements HighScoreList {
     @Override
     public List<Player> findPlayer(String firstName, String lastName) {
         List<Player> matchedPlayers = new ArrayList<>();
-        for (Player player : players) {
-
+        players.forEach((player) -> {
             if ("".equals(lastName.trim())) {
                 if (player.getFirstName().equals(firstName)) {
                     matchedPlayers.add(player);
@@ -50,7 +49,7 @@ public class InsertionSortHighScores implements HighScoreList {
                     matchedPlayers.add(player);
                 }
             }
-        }
+        });
         return matchedPlayers;
     }
 }
